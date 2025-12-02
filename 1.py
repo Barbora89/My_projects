@@ -1,18 +1,19 @@
 
 from itertools import cycle, islice
+import requests
 
-#initial_value = 50 # uvodni hodnota
-#given_value = 'L68'
-given_value = ["L68","L30" , "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"]  # pocet otoceni
-#rotated = int(''.join(filter(str.isdigit, given_value))) # pouze cislo
+session = "53616c7465645f5fa62bf7e14a9ed61a8b7db7ffdd7ebd8ce2243441e2d4bcf916aad443de5f0f29b702e2452b485b94ed881128f2c8877b5b16586e82aa687c"
+
+response = requests.get(
+    "https://adventofcode.com/2025/day/1/input",
+    cookies={"session": session}
+)
+
+given_value = response.text.strip().splitlines()
+#given_value = ["L68","L30" , "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"]  # pocet otoceni
 numbers = list(range(0,100))  # cisla na ciselniku 0 - 99
 numbers_reversed  = list(reversed(range(0,100))) # ciselnik otaceji se na opacnou stranu
-#cycled_numbers_left = cycle(numbers_reversed)
-#cycled_numbers_right = cycle(numbers)
-#sliced_left = list(islice(cycled_numbers_left,numbers_reversed.index(initial_value), numbers_reversed.index(initial_value) + rotated +1))
-#sliced_right = list(islice(cycled_numbers_right,numbers.index(initial_value), numbers.index(initial_value) + rotated +1 ))
-#wanted_number_left = sliced_left[-1:]
-#anted_number_right = sliced_right[-1:]
+
 
 def turn_dial(value,sliced_left,sliced_right):
     wanted_number_left = sliced_left[-1:]
@@ -23,7 +24,7 @@ def turn_dial(value,sliced_left,sliced_right):
         return wanted_number_right
 
 initial_value = 50
-
+number_of_zeros = 0
 for value in given_value:
      rotated = int(''.join(filter(str.isdigit, value)))
      cycled_numbers_left = cycle(numbers_reversed)
@@ -31,8 +32,13 @@ for value in given_value:
      sliced_left = list(islice(cycled_numbers_left, numbers_reversed.index(initial_value), numbers_reversed.index(initial_value) + rotated + 1))
      sliced_right = list( islice(cycled_numbers_right, numbers.index(initial_value), numbers.index(initial_value) + rotated + 1))
      result = turn_dial(value,sliced_left, sliced_right)
+     if result[0] == 0:
+         number_of_zeros += 1
      initial_value = result[0]
-     print(initial_value)
+
+print(number_of_zeros)
+
+
 
 
 
