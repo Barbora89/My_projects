@@ -10,18 +10,22 @@ response = requests.get(
 )
 
 given_value = response.text.strip().splitlines()
-#given_value = ["L68","L30" , "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"]  # pocet otoceni
 numbers = list(range(0,100))  # cisla na ciselniku 0 - 99
 numbers_reversed  = list(reversed(range(0,100))) # ciselnik otaceji se na opacnou stranu
 
 
 def turn_dial(value,sliced_left,sliced_right):
-    wanted_number_left = sliced_left[-1:]
-    wanted_number_right = sliced_right[-1:]
+    zeros = 0
     if "L" in value:
-      return wanted_number_left
+        for v in sliced_left[1:]:
+            if v == 0:
+                zeros += 1
+        return sliced_left[-1:], zeros
     else:
-        return wanted_number_right
+        for v in sliced_right[1:]:
+           if v == 0:
+            zeros += 1
+        return sliced_right[-1:], zeros
 
 initial_value = 50
 number_of_zeros = 0
@@ -31,12 +35,13 @@ for value in given_value:
      cycled_numbers_right = cycle(numbers)
      sliced_left = list(islice(cycled_numbers_left, numbers_reversed.index(initial_value), numbers_reversed.index(initial_value) + rotated + 1))
      sliced_right = list( islice(cycled_numbers_right, numbers.index(initial_value), numbers.index(initial_value) + rotated + 1))
-     result = turn_dial(value,sliced_left, sliced_right)
-     if result[0] == 0:
-         number_of_zeros += 1
+     result, zeros = turn_dial(value,sliced_left, sliced_right)
+     number_of_zeros += zeros
+     #if result[0] == 0:
+         #number_of_zeros += 1
      initial_value = result[0]
-
 print(number_of_zeros)
+
 
 
 
