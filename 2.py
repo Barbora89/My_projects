@@ -15,8 +15,6 @@ invalid = []
 
 for item in test_values:
     value = item.split("-")
-    #first_number , second_number = int(value[0]), int(value[1])
-    #range_of_numbers = list(map(str,range(int(first_number), int(second_number + 1))))
     for num in list(map(str,range(int(value[0]), int(value[1]) + 1))):
         quotient, remainder = divmod(len(num), 2)
         first_half, second_half = num[:quotient + remainder], num[quotient + remainder:]
