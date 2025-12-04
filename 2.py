@@ -14,12 +14,11 @@ test_values = response.text.split(',')
 invalid = []
 
 for item in test_values:
-    value = item.split("-")
-    for num in list(map(str,range(int(value[0]), int(value[1]) + 1))):
+    for num in list(map(str,range(int(item.split("-")[0]), int(item.split("-")[1]) + 1))):
         quotient, remainder = divmod(len(num), 2)
         first_half, second_half = num[:quotient + remainder], num[quotient + remainder:]
         if first_half in second_half:
-            invalid.append(int(num))
+            invalid.append(int(num))2   
 print(sum(invalid))
 
 
