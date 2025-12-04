@@ -18,7 +18,7 @@ for item in test_values:
         quotient, remainder = divmod(len(num), 2)
         first_half, second_half = num[:quotient + remainder], num[quotient + remainder:]
         if first_half in second_half:
-            invalid.append(int(num))2   
+            invalid.append(int(num))
 print(sum(invalid))
 
 
