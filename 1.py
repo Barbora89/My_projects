@@ -9,37 +9,26 @@ response = requests.get(
     cookies={"session": session}
 )
 
-given_value = response.text.strip().splitlines()
-numbers = list(range(0,100))  # cisla na ciselniku 0 - 99
-numbers_reversed  = list(reversed(range(0,100))) # ciselnik otaceji se na opacnou stranu
+rotations = response.text.strip().splitlines()
+#rotations = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"]
 
-
-def turn_dial(value,sliced_left,sliced_right):
-    zeros = 0
-    if "L" in value:
-        for v in sliced_left[1:]:
-            if v == 0:
-                zeros += 1
-        return sliced_left[-1:], zeros
-    else:
-        for v in sliced_right[1:]:
-           if v == 0:
-            zeros += 1
-        return sliced_right[-1:], zeros
 
 initial_value = 50
 number_of_zeros = 0
-for value in given_value:
-     rotated = int(''.join(filter(str.isdigit, value)))
-     cycled_numbers_left = cycle(numbers_reversed)
-     cycled_numbers_right = cycle(numbers)
-     sliced_left = list(islice(cycled_numbers_left, numbers_reversed.index(initial_value), numbers_reversed.index(initial_value) + rotated + 1))
-     sliced_right = list( islice(cycled_numbers_right, numbers.index(initial_value), numbers.index(initial_value) + rotated + 1))
-     result, zeros = turn_dial(value,sliced_left, sliced_right)
-     number_of_zeros += zeros
-     #if result[0] == 0:
-         #number_of_zeros += 1
-     initial_value = result[0]
+
+
+for value in rotations:
+    if "L" in value:
+        rotation = int(''.join(filter(str.isdigit, value)))
+        number_of_rotations, new_value = divmod(initial_value - rotation ,   100)
+        initial_value = new_value
+    else:
+        rotation = int(''.join(filter(str.isdigit, value)))
+        number_of_rotations, new_value = divmod(initial_value + rotation ,   100)
+        initial_value = new_value
+
+    if initial_value == 0:
+        number_of_zeros += 1
 print(number_of_zeros)
 
 
@@ -51,19 +40,6 @@ print(number_of_zeros)
 
 
 
-
-
-
-
-
-
-
-
-"""for value in given_value:
-    initial_value = 50
-    rotated = int(''.join(filter(str.isdigit, value)))
-    sliced_left = list(islice(cycled_numbers_left, numbers_reversed.index(initial_value),numbers_reversed.index(initial_value) + rotated + 1))
-    sliced_right = list(islice(cycled_numbers_right, numbers.index(initial_value), numbers.index(initial_value) + rotated + 1))"""
 
 
 
