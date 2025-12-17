@@ -32,17 +32,16 @@ def part_2():
     for value in data:
         rotation = int(''.join(filter(str.isdigit, value)))
         if "L" in value:
-            old_position = start_position
             if start_position == 0:
                 number_of_zeros -= 1
-            zeros, position = divmod(start_position - rotation, 100)
+            zeros, new_position = divmod(start_position - rotation, 100)
             number_of_zeros += abs(zeros)
-            if position == 0 and rotation >= old_position and old_position > 0:
+            if new_position == 0 and rotation >= start_position and start_position > 0:
                 number_of_zeros += 1
         else:
-            zeros, position = divmod(start_position + rotation, 100)
+            zeros, new_position = divmod(start_position + rotation, 100)
             number_of_zeros += zeros
-        start_position = position
+        start_position = new_position
     return number_of_zeros
 print(part_2())
 
