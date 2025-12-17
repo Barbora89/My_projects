@@ -11,11 +11,6 @@ response = requests.get(
 data = response.text.strip().splitlines()
 
 
-start_position = 50
-
-zeros_during_rotation = 0  #part 2
-
-
 def part_1():
     number_of_zeros = 0
     start_position = 50
