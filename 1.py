@@ -15,22 +15,30 @@ rotations = response.text.strip().splitlines()
 
 initial_value = 50
 number_of_zeros = 0
-
+zeros_during_rotation = 0  #part 2
 
 for value in rotations:
     if "L" in value:
         rotation = int(''.join(filter(str.isdigit, value)))
+        old_initial_value = initial_value
+        if initial_value == 0:
+            zeros_during_rotation -= 1
         number_of_rotations, new_value = divmod(initial_value - rotation ,   100)
+        zeros_during_rotation += abs(number_of_rotations)
+        if new_value == 0 and rotation >= old_initial_value and old_initial_value > 0:
+            zeros_during_rotation += 1
         initial_value = new_value
+
     else:
         rotation = int(''.join(filter(str.isdigit, value)))
         number_of_rotations, new_value = divmod(initial_value + rotation ,   100)
+        zeros_during_rotation += number_of_rotations
         initial_value = new_value
 
     if initial_value == 0:
         number_of_zeros += 1
 print(number_of_zeros)
-
+print(zeros_during_rotation)
 
 
 
