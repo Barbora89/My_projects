@@ -36,7 +36,7 @@ def part_2():
                 number_of_zeros -= 1
             zeros, new_position = divmod(start_position - rotation, 100)
             number_of_zeros += abs(zeros)
-            if new_position == 0 and rotation >= start_position and start_position > 0:
+            if start_position != 0 and rotation >= start_position and new_position == 0:
                 number_of_zeros += 1
         else:
             zeros, new_position = divmod(start_position + rotation, 100)
