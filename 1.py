@@ -1,5 +1,4 @@
 
-from itertools import cycle, islice
 import requests
 
 session = "53616c7465645f5fa62bf7e14a9ed61a8b7db7ffdd7ebd8ce2243441e2d4bcf916aad443de5f0f29b702e2452b485b94ed881128f2c8877b5b16586e82aa687c"
@@ -9,36 +8,67 @@ response = requests.get(
     cookies={"session": session}
 )
 
-rotations = response.text.strip().splitlines()
-#rotations = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"]
+data = response.text.strip().splitlines()
 
 
-initial_value = 50
-number_of_zeros = 0
+start_position = 50
+
 zeros_during_rotation = 0  #part 2
 
-for value in rotations:
-    if "L" in value:
-        rotation = int(''.join(filter(str.isdigit, value)))
-        old_initial_value = initial_value
-        if initial_value == 0:
-            zeros_during_rotation -= 1
-        number_of_rotations, new_value = divmod(initial_value - rotation ,   100)
-        zeros_during_rotation += abs(number_of_rotations)
-        if new_value == 0 and rotation >= old_initial_value and old_initial_value > 0:
-            zeros_during_rotation += 1
-        initial_value = new_value
 
-    else:
+def part_1():
+    number_of_zeros = 0
+    start_position = 50
+    for value in data:
         rotation = int(''.join(filter(str.isdigit, value)))
-        number_of_rotations, new_value = divmod(initial_value + rotation ,   100)
-        zeros_during_rotation += number_of_rotations
-        initial_value = new_value
+        if "L" in value:
+            new_position = (start_position + rotation * -1) % 100
+        else:
+            new_position = (start_position + rotation) % 100
+        start_position = new_position
+        if start_position == 0:
+           number_of_zeros += 1
+    return number_of_zeros
+print(part_1())
 
-    if initial_value == 0:
-        number_of_zeros += 1
-print(number_of_zeros)
-print(zeros_during_rotation)
+def part_2():
+    number_of_zeros = 0
+    start_position = 50
+    for value in data:
+        rotation = int(''.join(filter(str.isdigit, value)))
+        if "L" in value:
+            old_position = start_position
+            if start_position == 0:
+                number_of_zeros -= 1
+            zeros, position = divmod(start_position - rotation, 100)
+            number_of_zeros += abs(zeros)
+            if position == 0 and rotation >= old_position and old_position > 0:
+                number_of_zeros += 1
+        else:
+            zeros, position = divmod(start_position + rotation, 100)
+            number_of_zeros += zeros
+        start_position = position
+    return number_of_zeros
+print(part_2())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
