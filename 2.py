@@ -2,10 +2,11 @@ import requests
 from functools import lru_cache
 
 url = "https://adventofcode.com/2025/day/2/input"
+
 @lru_cache(maxsize=10)
-def load_values(url):
+def load_values(target_url):
     session = "53616c7465645f5f16b1d4f58d5ce5cbfc485387c152fcabdb07db598b90bdbd5b2056fb98ce8970d2f8c65cfab197ca973f7363fae5cccdb6c15e7fb871f943"
-    response = requests.get(url,
+    response = requests.get(target_url,
         cookies={"session": session}
     )
     return response
