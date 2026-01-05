@@ -1,15 +1,19 @@
 
 import requests
+from functools import lru_cache
 
-session = "53616c7465645f5fa62bf7e14a9ed61a8b7db7ffdd7ebd8ce2243441e2d4bcf916aad443de5f0f29b702e2452b485b94ed881128f2c8877b5b16586e82aa687c"
 
-response = requests.get(
-    "https://adventofcode.com/2025/day/1/input",
-    cookies={"session": session}
-)
+url = "https://adventofcode.com/2025/day/1/input"
 
-data = response.text.strip().splitlines()
+@lru_cache(maxsize=10)
+def load_values(target_url):
+    session = "53616c7465645f5f16b1d4f58d5ce5cbfc485387c152fcabdb07db598b90bdbd5b2056fb98ce8970d2f8c65cfab197ca973f7363fae5cccdb6c15e7fb871f943"
+    response = requests.get(target_url,
+        cookies={"session": session}
+    )
+    return response
 
+data = load_values(url).text.strip().splitlines()
 
 def part_1():
     number_of_zeros = 0
