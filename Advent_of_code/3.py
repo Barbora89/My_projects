@@ -15,25 +15,25 @@ test_data = load_values(url).text.strip().splitlines()
 
 
 #test_data = ["987654321111111", "234234234234278", "818181911112111","811111111111119"]
-result = []
-for data in  test_data:
-    li = list(map(int, str(data)))
-    highest = (max(li))
-    highest_index = (li.index(highest))
 
-    if highest_index == len(li) - 1:
-        second_highest_range = li[:-1]
-        second_highest = max(second_highest_range)
-        highest_number = str(second_highest) + str(highest)
-        result.append(highest_number)
+def part_1():
+    result = []
+    for data in  test_data:
+       list_of_numbers = list(map(int, str(data)))
+       highest_number = (max(list_of_numbers))
 
-    else:
-        second_highest_range = li[highest_index + 1:len(li)]
-        second_highest = max(second_highest_range)
-        highest_number = str(highest) + str(second_highest)
-        result.append(highest_number)
-result = list(map(int, result))
-print(sum(result))
+       if list_of_numbers.index(max(list_of_numbers)) == len(list_of_numbers) - 1:
+          second_highest = max(list_of_numbers[:-1])
+          highest_number = str(second_highest) + str(highest_number)
+          result.append(highest_number)
+
+       else:
+           second_highest = max(list_of_numbers[list_of_numbers.index(max(list_of_numbers)) + 1:len(list_of_numbers)])
+           highest_number = str(highest_number) + str(second_highest)
+           result.append(highest_number)
+    return sum(list(map(int, result)))
+
+print(part_1())
 
 
 
