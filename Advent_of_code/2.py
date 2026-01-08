@@ -34,4 +34,6 @@ def part_2():
             if is_repeating(num):
                 invalid.append(int(num))
     return sum(invalid)
+
+print(part_1())
 print(part_2())
