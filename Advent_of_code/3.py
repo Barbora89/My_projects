@@ -11,11 +11,11 @@ def load_values(target_url):
     )
     return response
 
-#test_data = load_values(url).text.strip().splitlines()
+test_data = load_values(url).text.strip().splitlines()
 
 
-test_data = ["987654321111111", "234234234234278", "818181911112111","811111111111119"]
-#test_data = [ "818181911112111"]
+#test_data = ["987654321111111", "234234234234278", "818181911112111","811111111111119"]
+
 
 """def part_1():
     result = []
@@ -35,18 +35,99 @@ test_data = ["987654321111111", "234234234234278", "818181911112111","8111111111
 
 #print(part_1())
 
-result = []
-for data in  test_data:
+
+all_results = []
+
+for data in test_data:
+
+    result = []
+
     list_of_numbers = list(map(int, str(data)))
-    highest_number = (max(list_of_numbers))
+
+    highest_number = max(list_of_numbers)
+
     highest_number_index = list_of_numbers.index(max(list_of_numbers))
 
-    if highest_number_index > 3:
-        while highest_number_index > 3:
-            highest_number_index = highest_number_index -1
-            if highest_number_index == 3:
+    number = 12
+
+    if highest_number_index > len(list_of_numbers) - number:
+
+            highest_number = max(list_of_numbers[:len(list_of_numbers) - number + 1])
+
+            highest_number_index = list_of_numbers.index(highest_number)
+
+    else:
+            pass
+
+    result.append(highest_number)
+
+    number = number - 1
+
+    count = 1
+
+    while count < 12:
+
+        rest_of_list = list_of_numbers[highest_number_index + 1:]
+
+        if not rest_of_list:
+            break
+
+        next_highest = max(rest_of_list)
+
+        next_highest_index = rest_of_list.index(next_highest)
+
+        if next_highest_index > len(rest_of_list) - number:
+
+             next_highest = max(rest_of_list[:len(rest_of_list) - number + 1])
+
+             next_highest_index = rest_of_list.index(next_highest)
+
+        result.append(next_highest)
+        count = count + 1
+
+        highest_number_index = highest_number_index + 1 + next_highest_index
+
+        number = number - 1
+
+    # Convert list to integer number
+    result_number = int(''.join(map(str, result)))
+    all_results.append(result_number)
+
+total_sum = sum(all_results)
+print(f"\nTotal sum: {total_sum}")
+
+
+    #print(f"Output: {''.join(map(str, result))}")
+    #print()
+
+    # new_list = list_of_numbers[highest_number_index + 1:]
+        #second_highest = max(new_list)
+        #if highest_number_index > len(new_list) -11:
+        #highest_number = max(new_list[:len(new_list) -11])
+        #print(highest_number)
+
+
+
+
+
+
+
+        #new_list = list_of_numbers[highest_number_index + 1:]
+        #print(new_list)
+
+
+        #while highest_number_index > len(list_of_numbers)  - 12 :
+
+"""highest_number_index = highest_number_index -1
+            if highest_number_index == len(list_of_numbers) - 12:
                 break
         highest_number = data[highest_number_index]
+        result.append(highest_number)
+        new_data = data[highest_number_index:]
+        print(new_data)
+    else:"""
+
+
 
 
 
