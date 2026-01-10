@@ -11,29 +11,61 @@ def load_values(target_url):
     )
     return response
 
-test_data = load_values(url).text.strip().splitlines()
+#test_data = load_values(url).text.strip().splitlines()
 
 
-#test_data = ["987654321111111", "234234234234278", "818181911112111","811111111111119"]
+test_data = ["987654321111111", "234234234234278", "818181911112111","811111111111119"]
+#test_data = [ "818181911112111"]
 
-def part_1():
+"""def part_1():
     result = []
     for data in  test_data:
        list_of_numbers = list(map(int, str(data)))
        highest_number = (max(list_of_numbers))
 
        if list_of_numbers.index(max(list_of_numbers)) == len(list_of_numbers) - 1:
-          second_highest = max(list_of_numbers[:-1])
-          highest_number = str(second_highest) + str(highest_number)
+          highest_number = str(max(list_of_numbers[:-1])) + str(max(list_of_numbers))
           result.append(highest_number)
 
        else:
            second_highest = max(list_of_numbers[list_of_numbers.index(max(list_of_numbers)) + 1:len(list_of_numbers)])
            highest_number = str(highest_number) + str(second_highest)
            result.append(highest_number)
-    return sum(list(map(int, result)))
+    return sum(list(map(int, result)))"""
 
-print(part_1())
+#print(part_1())
+
+result = []
+for data in  test_data:
+    list_of_numbers = list(map(int, str(data)))
+    highest_number = (max(list_of_numbers))
+    highest_number_index = list_of_numbers.index(max(list_of_numbers))
+
+    if highest_number_index > 3:
+        while highest_number_index > 3:
+            highest_number_index = highest_number_index -1
+            if highest_number_index == 3:
+                break
+        highest_number = data[highest_number_index]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
