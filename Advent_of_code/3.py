@@ -36,7 +36,66 @@ test_data = load_values(url).text.strip().splitlines()
 #print(part_1())
 
 
-all_results = []
+result =[]
+#count = 0
+#count_of_numbers = 12
+
+for data in test_data:
+    count = 0
+    count_of_numbers = 12
+    highest_numbers = []
+    list_of_numbers = list(map(int, str(data)))
+    highest_number = max(list_of_numbers[:len(list_of_numbers) - count_of_numbers +1])
+    highest_numbers.append(highest_number)
+    count += 1
+    count_of_numbers -= 1
+    current_position = list_of_numbers.index(highest_number)
+    while count < 12:
+      updated_list = list_of_numbers[current_position+1  : len(list_of_numbers)+1 - count_of_numbers]
+      if not updated_list:  # Safety check
+          break
+      #print(updated_list)
+      highest_number = max(updated_list)
+      highest_numbers.append(highest_number)
+      current_position = current_position + 1 + updated_list.index(highest_number)
+      count += 1
+      count_of_numbers -= 1
+    #result_number = int(''.join(map(str, highest_numbers)))
+    result.append(int(''.join(map(str, highest_numbers))))
+print(sum(result))
+
+
+
+
+
+
+
+
+
+"""while count < 13:
+        for data in test_data:
+            list_of_numbers = list(map(int, str(data)))
+            highest_number = max(list_of_numbers[:len(list_of_numbers) - count_of_numbers])
+            result.append(highest_number)
+            count += 1
+            count_of_numbers -= 1
+            updated_list = list_of_numbers[list_of_numbers.index(highest_number): len(list_of_numbers) - count_of_numbers]
+            highest_number = max(updated_list)
+            result.append(highest_number)
+print(result)"""
+
+
+
+
+
+
+
+
+
+
+
+
+"""all_results = []
 
 for data in test_data:
 
@@ -48,20 +107,21 @@ for data in test_data:
 
     highest_number_index = list_of_numbers.index(max(list_of_numbers))
 
-    number = 12
+    count_of_numbers = 12
 
-    if highest_number_index > len(list_of_numbers) - number:
 
-            highest_number = max(list_of_numbers[:len(list_of_numbers) - number + 1])
+    if highest_number_index > len(list_of_numbers) - count_of_numbers:
+
+            highest_number = max(list_of_numbers[:len(list_of_numbers) - count_of_numbers + 1])
 
             highest_number_index = list_of_numbers.index(highest_number)
 
     else:
-            pass
+        pass
 
     result.append(highest_number)
 
-    number = number - 1
+    count_of_numbers = count_of_numbers - 1
 
     count = 1
 
@@ -69,16 +129,13 @@ for data in test_data:
 
         rest_of_list = list_of_numbers[highest_number_index + 1:]
 
-        if not rest_of_list:
-            break
-
         next_highest = max(rest_of_list)
 
         next_highest_index = rest_of_list.index(next_highest)
 
-        if next_highest_index > len(rest_of_list) - number:
+        if next_highest_index > len(rest_of_list) - count_of_numbers:
 
-             next_highest = max(rest_of_list[:len(rest_of_list) - number + 1])
+             next_highest = max(rest_of_list[:len(rest_of_list) - count_of_numbers + 1])
 
              next_highest_index = rest_of_list.index(next_highest)
 
@@ -87,24 +144,13 @@ for data in test_data:
 
         highest_number_index = highest_number_index + 1 + next_highest_index
 
-        number = number - 1
+        count_of_numbers = count_of_numbers - 1
 
     # Convert list to integer number
     result_number = int(''.join(map(str, result)))
     all_results.append(result_number)
 
-total_sum = sum(all_results)
-print(f"\nTotal sum: {total_sum}")
-
-
-    #print(f"Output: {''.join(map(str, result))}")
-    #print()
-
-    # new_list = list_of_numbers[highest_number_index + 1:]
-        #second_highest = max(new_list)
-        #if highest_number_index > len(new_list) -11:
-        #highest_number = max(new_list[:len(new_list) -11])
-        #print(highest_number)
+print(sum(all_results))"""
 
 
 
@@ -112,20 +158,6 @@ print(f"\nTotal sum: {total_sum}")
 
 
 
-        #new_list = list_of_numbers[highest_number_index + 1:]
-        #print(new_list)
-
-
-        #while highest_number_index > len(list_of_numbers)  - 12 :
-
-"""highest_number_index = highest_number_index -1
-            if highest_number_index == len(list_of_numbers) - 12:
-                break
-        highest_number = data[highest_number_index]
-        result.append(highest_number)
-        new_data = data[highest_number_index:]
-        print(new_data)
-    else:"""
 
 
 
