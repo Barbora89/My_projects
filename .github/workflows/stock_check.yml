@@ -15,16 +15,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Obnov stav alertů
+      - name: Restore alert state
         uses: actions/cache@v4
         with:
           path: alert_state.json
           key: alert-state
 
-      - name: Nainstaluj závislosti
-        run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r stock_reminder/requirements.txt
 
-      - name: Zkontroluj ceny
-        run: python stock_reminder.py
+      - name: Check prices
+        run: python stock_reminder/stock_reminder.py
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DI
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          
