@@ -7,7 +7,7 @@ import platform
 import json
 
 STOCKS = {
-    "GEN": {"above": 26}
+    "GEN": {"above": 24}
     }
 CHECK_INTERVAL = 3600
 
