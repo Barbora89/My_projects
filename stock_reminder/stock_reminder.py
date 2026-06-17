@@ -1,20 +1,17 @@
 import yfinance as yf
-import subprocess
 import requests
-import time
+import urllib3
 import os
-import platform
 import json
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 STOCKS = {
     "GEN": {"above": 24}
-    }
-CHECK_INTERVAL = 3600
+}
 
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")
-
 STATE_FILE = "alert_state.json"
-
 
 
 def load_state():
@@ -23,31 +20,23 @@ def load_state():
             return json.load(f)
     return {}
 
-
 def save_state(state):
     with open(STATE_FILE, "w") as f:
         json.dump(state, f)
 
-def notify_mac(title, message):
-    if platform.system() == "Darwin":
-        script = f'display notification "{message}" with title "{title}" sound name "Ping"'
-        subprocess.run(["osascript", "-e", script])
-
-def notify_discord(message):
-    if DISCORD_WEBHOOK_URL:
-        requests.post(DISCORD_WEBHOOK_URL, json={"content": message})
-
 def notify(title, message):
-    notify_mac(title, message)
-    notify_discord(f"**{title}** {message}")
+    if DISCORD_WEBHOOK_URL:
+        requests.post(DISCORD_WEBHOOK_URL, json={"content": f"**{title}** {message}"}, verify=False)
 
 
 def check_prices():
     state = load_state()
+    session = requests.Session()
+    session.verify = False
 
     for ticker, thresholds in STOCKS.items():
         try:
-            stock = yf.Ticker(ticker)
+            stock = yf.Ticker(ticker, session=session)
             price = stock.fast_info["last_price"]
             print(f"{ticker}: ${price:.2f}")
 
@@ -55,20 +44,14 @@ def check_prices():
             if thresholds.get("above"):
                 if price > thresholds["above"]:
                     if not state.get(key_above):
-                        notify(f"📈 {ticker} vysoko!", f"Cena ${price:.2f} je nad {thresholds['above']}")
+                        notify(f"📈 {ticker} roste!", f"Cena ${price:.2f} je nad {thresholds['above']}")
                         state[key_above] = True
                 else:
                     state[key_above] = False
 
         except Exception as e:
             print(f"Chyba u {ticker}: {e}")
+
     save_state(state)
 
-if os.environ.get("CI"):
-    check_prices()
-else:
-    print("Spuštěno lokálně. Ctrl+C pro ukončení.")
-    while True:
-        check_prices()
-        print(f"Čekám {CHECK_INTERVAL}s...\n")
-        time.sleep(CHECK_INTERVAL)
+check_prices()
